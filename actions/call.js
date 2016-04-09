@@ -12,9 +12,9 @@ const twilioCalls = (twilio_client, config) => {
 	    });
 	};
 
-	function callNumber(number, file) {
+	function callNumber(number, url) {
 	    twilio_client.calls.create({
-	        url: file,
+	        url: url,
 	        to: number,
 	        from: config.from
 	    }, function(err, call) {
@@ -23,7 +23,7 @@ const twilioCalls = (twilio_client, config) => {
 	};
 
 	return {
-		call: call
+		call: call,
 		callNumber : callNumber
 	};
 }

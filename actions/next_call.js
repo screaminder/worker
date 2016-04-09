@@ -1,5 +1,9 @@
 'use strict'
+const moment = require('moment');
+const _ = require('lodash');
 
+var titles = ["yoga", "walking", "swimming", "running", "martial", "gym", "grouptraining","teamsports"];
+var day = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 const nextCall = (mongoClient, since, twilioCalls) => {
 	const itemsCollection = mongoClient.collection('items');
@@ -8,28 +12,36 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 	function getItem() {
 		
 		itemsCollection.findAsync({datetime: {$gte: since}}).then((result) => {
-			for(var i in result){
-				console.log(result[i].userId);
-				usersCollection.findOneAsync({_id: result[i].userId}).then((user) => {
-					console.log(user.phone);
-					console.log("janika");
-					console.log(user);
-				}, (err) => {
-					console.log(error);
-				});
-			}
 
-			console.log("teeet");
-			// console.log(result);
-			// res.json(result);
+			result.each(function(err, item){
+				if(err)
+					console.error(err);
+
+				if(item){
+					usersCollection.findOneAsync({_id: item.userId}).then((user) => {
+						console.log(resolveToFile(item.type, item.title));
+					}, (err) => {
+						console.error(error);
+					});
+				}
+
+			});
 		}, (err) => {
-			console.log(error);
-		  // res.status(400).json({error_message: 'problem inserting user'});
+			console.error(error);
 		});
-
-
-		console.log("lopp");
 	};
+
+	function resolveToFile(item_type, title) {
+
+		if(item_type == "workout" && _.includes(titles, title)){
+			return item_type + "_" + title + ".mp3";
+		} else if (item_type == "alarm") {
+			var n = day[new Date().getDay()];
+			return item_type + "_" + n + ".mp3" ;
+		} else {
+			return "response_callmother.mp3";
+		}
+	}
 	return {
 		getCurrent: getItem
 	};

@@ -40,7 +40,7 @@ MongoDB.prototype.collection = function(cll) {
     findAsync: (d) => {
       return Q.promise((resolve, reject) => {
         this._db.collection(cll).find(d, (err, result) => {
-          err ? reject(err) : resolve(result.toArray());
+          err ? reject(err) : resolve(result);
         });
       });
     },
