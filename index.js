@@ -19,7 +19,8 @@ if (process.env.ACCOUNT_SID) {
 }
 
 const twilio_client = require('twilio')(config.accountSid, config.authToken);
-
+const twilioCalls = require('./actions/call.js')(twilio_client, config);
+const playVoices = require('./actions/voice.js')(twilio_client);
 
 function onError(err, req, res, next) {
     res.statusCode = 500;
@@ -27,19 +28,11 @@ function onError(err, req, res, next) {
     console.error(err.stack);
 }
 
-function call(request, response) {
-    twilio_client.calls.create({
-        url: "https://demo.twilio.com/welcome/voice/",
-        to: "+37256615540",
-        from: config.from
-    }, function(err, call) {
-        process.stdout.write(call.sid);
-    });
-}
-
 //actions
 app.get('/status', statusReq.get);
-app.get('/call', call);
+app.get('/call', twilioCalls.call, statusReq.get);
+app.get('/voice', playVoices.scream, statusReq.get);
+
 
 // error handler
 app.use(onError);
