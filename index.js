@@ -43,7 +43,7 @@ function qs1(request, response) {
 
     //This is a TwiML app SID configured with a voice URL
     //https://www.twilio.com/user/account/apps
-    capability.allowClientOutgoing('APd0aa702e9a16856c36d4476075cc212c');
+    capability.allowClientOutgoing('CNbe8ba10acf2087b1524b6c1d75fee4c9');
 
     // Render an EJS template with the token and page title in context
     // EJS template is found in views/qs1.ejs
