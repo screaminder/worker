@@ -52,9 +52,8 @@ function testTimeout(){
 //actions
 app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
-app.post('/voice', playVoices.scream, statusReq.get);
-app.get('/voice', playVoices.scream, statusReq.get);
-
+app.post('/voice/:fileName', playVoices.scream, statusReq.get);
+app.get('/voice/:fileName', playVoices.scream, statusReq.get);
 
 // error handler
 app.use(onError);
