@@ -16,7 +16,7 @@ var config = {};
 if (process.env.ACCOUNT_SID) {
     config.accountSid = process.env.ACCOUNT_SID;
     config.authToken = process.env.AUTH_TOKEN;
-    config.from = process.env.FROM;
+    config.from = process.env.TWILIO_FROM;
 } else {
     config = require('./config.js');
 }
