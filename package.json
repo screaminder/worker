@@ -1,7 +1,7 @@
 {
   "name": "screaminder-worker",
   "version": "0.0.0",
-  "description": "Provides api calls for creating items",
+  "description": "Provides worker for making phone calls.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
