@@ -2,10 +2,13 @@
 
 const Q = require('q');
 const express = require('express');
+const serve_static = require('serve-static')
 const cors = require('cors');
+const path = require('path')
 const statusReq = require('./actions/status.js');
 const ejs = require('ejs')
 const app = express();
+
 
 var config = {};
 
@@ -36,7 +39,10 @@ app.get('/voice', playVoices.scream, statusReq.get);
 
 // error handler
 app.use(onError);
+app.use("/sounds", express.static(path.join(__dirname, 'sounds')));
 
 app.listen(process.env.PORT, () => {
   console.log('Started slack-api on port ' + process.env.PORT);
 });
+
+
