@@ -34,7 +34,7 @@ function onError(err, req, res, next) {
 //actions
 app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
-app.get('/voice', playVoices.scream, statusReq.get);
+app.post('/voice', playVoices.scream, statusReq.get);
 
 
 // error handler
