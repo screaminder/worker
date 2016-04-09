@@ -14,11 +14,12 @@ const twilioCalls = (twilio_client, config) => {
 
 	function callNumber(number, url) {
 	    twilio_client.calls.create({
-	        url: url,
+	        url: "https://screaminder-worker.herokuapp.com/voice/" + url,
 	        to: number,
 	        from: config.from
 	    }, function(err, call) {
-	    	response.json({"status":"ok"});
+	    	if(err)
+		    	console.error(err);
 	    });
 	};
 

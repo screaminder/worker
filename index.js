@@ -14,7 +14,7 @@ const app = express();
 
 
 var config = {};
-var since = moment().subtract(3, 'h').toDate();
+var since = moment().toDate();
 var mongoClient = {};
 
 //prod/heroku
@@ -40,7 +40,7 @@ function onError(err, req, res, next) {
     console.error(err.stack);
 }
 
-var s = later.parse.text('every 5 seconds');
+var s = later.parse.text('every 10 seconds');
 //later.schedule(s).prev(10);
 
 var timer = later.setInterval(testTimeout, s);
@@ -54,6 +54,7 @@ app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
 app.post('/voice/:fileName', playVoices.scream, statusReq.get);
 app.get('/voice/:fileName', playVoices.scream, statusReq.get);
+
 
 // error handler
 app.use(onError);

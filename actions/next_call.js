@@ -8,26 +8,53 @@ var day = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "sa
 const nextCall = (mongoClient, since, twilioCalls) => {
 	const itemsCollection = mongoClient.collection('items');
 	const usersCollection = mongoClient.collection('users');
+	const workerCollection = mongoClient.collection('worker');
 
 	function getItem() {
-		
-		itemsCollection.findAsync({datetime: {$gte: since}}).then((result) => {
+		var lastCheck = {datetime: since},
+		currentCheck = {datetime: new Date()};
+		workerCollection.findOneAsync({}).then((result) => {
 
-			result.each(function(err, item){
-				if(err)
+			// console.log(result);
+			if(result){
+				lastCheck = result;
+				console.log(result._id);
+				workerCollection.updateAsync({_id: lastCheck._id}, currentCheck).then((rr) => {
+				}, (err) => {
 					console.error(err);
+				});
+			}else {
+				workerCollection.insertOneAsync(currentCheck).then((rr) => {
+				}, (err) => {
+					console.error(err);
+				});
+			}
 
-				if(item){
-					usersCollection.findOneAsync({_id: item.userId}).then((user) => {
-						console.log(resolveToFile(item.type, item.title));
-					}, (err) => {
-						console.error(error);
-					});
-				}
+			itemsCollection.findAsync({
+				$and: [
+					{datetime: {$gte: lastCheck.datetime}},
+					{datetime: {$lte: currentCheck.datetime}}
+				]
+			}).then((result) => {
 
+				result.each(function(err, item){
+					if(err)
+						console.error(err);
+
+					if(item){
+						usersCollection.findOneAsync({_id: item.userId}).then((user) => {
+							if(user.phone.indexOf("+372") > -1){
+								twilioCalls.callNumber(user.phone, resolveToFile(item.type, item.title));
+							}
+							console.log("calling to", user.phone, "with mp3: ", resolveToFile(item.type, item.title));
+						}, (err) => {
+							console.error(error);
+						});
+					}
+				});
+			}, (err) => {
+				console.error(error);
 			});
-		}, (err) => {
-			console.error(error);
 		});
 	};
 
