@@ -12,8 +12,20 @@ const twilioCalls = (twilio_client, config) => {
 	    });
 	};
 
+	function callNumber(number, file) {
+	    twilio_client.calls.create({
+	        url: file,
+	        to: number,
+	        from: config.from
+	    }, function(err, call) {
+	    	response.json({"status":"ok"});
+	    });
+	};
+
 	return {
 		call: call
+		callNumber : callNumber
 	};
 }
+
 module.exports = twilioCalls;
