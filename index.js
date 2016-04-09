@@ -17,10 +17,10 @@ if (process.env.ACCOUNT_SID) {
 } else {
     config = require('./config.js');
 }
-
-const twilio_client = require('twilio')(config.accountSid, config.authToken);
+const twilio = require('twilio');
+const twilio_client = twilio(config.accountSid, config.authToken);
 const twilioCalls = require('./actions/call.js')(twilio_client, config);
-const playVoices = require('./actions/voice.js')(twilio_client);
+const playVoices = require('./actions/voice.js')(twilio);
 
 function onError(err, req, res, next) {
     res.statusCode = 500;
