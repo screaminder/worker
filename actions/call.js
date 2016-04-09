@@ -8,7 +8,7 @@ const twilioCalls = (twilio_client, config) => {
 	        to: "+37256615540",
 	        from: config.from
 	    }, function(err, call) {
-	        process.stdout.write(call.sid);
+	    	response.json({"status":"ok"});
 	    });
 	};
 
