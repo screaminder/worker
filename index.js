@@ -14,14 +14,10 @@ if (process.env.ACCOUNT_SID) {
     config.accountSid = process.env.ACCOUNT_SID;
     config.authToken = process.env.AUTH_TOKEN;
     config.from = process.env.FROM;
-}
-
-//local dev
-else {
+} else {
     config = require('./config.js');
 }
 
-const config = require('./config.js');
 const twilio_client = require('twilio')(config.accountSid, config.authToken);
 
 
