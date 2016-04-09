@@ -23,7 +23,7 @@ const twilioCalls = (twilio_client, config) => {
 	};
 
 	return {
-		call: call
+		call: call,
 		callNumber : callNumber
 	};
 }
