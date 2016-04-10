@@ -32,7 +32,6 @@ if (process.env.ACCOUNT_SID) {
 const twilio = require('twilio');
 const twilio_client = twilio(config.accountSid, config.authToken);
 const twilioCalls = require('./actions/call.js')(twilio_client, config);
-const twilioCallback = require('./actions/twilio_callback.js')(twilio_client, config);
 const playVoices = require('./actions/voice.js')(twilio);
 const nextCall = require('./actions/next_call.js')(mongoClient, since, twilioCalls);
 
@@ -55,7 +54,6 @@ app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
 app.get('/call/manual/:phoneNumber/:fileName', twilioCalls.callManual, statusReq.get);
 app.post('/voice/:fileName', playVoices.scream, statusReq.get);
-// app.post('/callback', bodyParser.json(), twilioCallback.handleCall);
 app.get('/voice/:fileName', playVoices.scream, statusReq.get);
 
 

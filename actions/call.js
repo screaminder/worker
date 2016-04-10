@@ -23,9 +23,6 @@ const twilioCalls = (twilio_client, config) => {
 	    });
 	};
 
-// statusCallback: "https://screaminder-worker.herokuapp.com/callback/",
-// 		    statusCallbackMethod: "POST",
-// 		    statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
 	function callManual(request, response) {
 		callNumber(request.params.phoneNumber, request.params.fileName);
 		response.json({"status" : "calling"});
