@@ -25,6 +25,7 @@ const twilioCalls = (twilio_client, config) => {
 
 	function callManual(request, response) {
 		callNumber(request.params.phoneNumber, request.params.fileName);
+		response.json({"status" : "calling"});
 	};
 
 	return {
