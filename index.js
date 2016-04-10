@@ -47,7 +47,7 @@ var s = later.parse.text('every 10 seconds');
 var timer = later.setInterval(testTimeout, s);
 
 function testTimeout(){
-	// nextCall.getCurrent();
+	nextCall.getCurrent();
 }
 
 //actions
