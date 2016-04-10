@@ -55,13 +55,15 @@ app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
 app.get('/call/manual/:phoneNumber/:fileName', twilioCalls.callManual, statusReq.get);
 app.post('/voice/:fileName', playVoices.scream, statusReq.get);
-app.post('/callback', bodyParser.json(), twilioCallback.handleCall);
+// app.post('/callback', bodyParser.json(), twilioCallback.handleCall);
 app.get('/voice/:fileName', playVoices.scream, statusReq.get);
 
 
 // error handler
 app.use(onError);
 app.use("/sounds", express.static(path.join(__dirname, 'sounds')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 Q.all([mongoClient.connectAsync()]).then(() => {
   app.listen(process.env.PORT, () => {
