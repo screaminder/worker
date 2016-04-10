@@ -18,7 +18,7 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 			// console.log(result);
 			if(result){
 				lastCheck = result;
-				console.log(result._id);
+				console.log(result);
 				workerCollection.updateAsync({_id: lastCheck._id}, currentCheck).then((rr) => {
 				}, (err) => {
 					console.error(err);
@@ -45,15 +45,21 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 						usersCollection.findOneAsync({_id: item.userId}).then((user) => {
 							if(user.phone.indexOf("+372") > -1){
 								twilioCalls.callNumber(user.phone, resolveToFile(item.type, item.title));
+								item.editable = true;
+								itemsCollection.updateAsync({_id: item._id}, item).then((res) => {
+									console.log("updated item", item);
+								}, (err) => {
+									console.error(err);
+								});
 							}
 							console.log("calling to", user.phone, "with mp3: ", resolveToFile(item.type, item.title));
 						}, (err) => {
-							console.error(error);
+							console.error(err);
 						});
 					}
 				});
 			}, (err) => {
-				console.error(error);
+				console.error(err);
 			});
 		});
 	};
