@@ -46,7 +46,7 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 							if(user.phone.indexOf("+372") > -1){
 								twilioCalls.callNumber(user.phone, resolveToFile(item.type, item.title));
 								item.editable = true;
-								itemsCollection.updateAsync({_id: item._id}).then((res) => {
+								itemsCollection.updateAsync({_id: item._id}, item).then((res) => {
 									console.log("updated item", item);
 								}, (err) => {
 									console.error(err);
