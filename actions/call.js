@@ -16,16 +16,16 @@ const twilioCalls = (twilio_client, config) => {
 	    twilio_client.calls.create({
 	        url: "https://screaminder-worker.herokuapp.com/voice/" + url,
 	        to: number,
-	        from: config.from,
-	        statusCallback: "https://screaminder-worker.herokuapp.com/callback/",
-		    statusCallbackMethod: "POST",
-		    statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
+	        from: config.from
 	    }, function(err, call) {
 	    	if(err)
 		    	console.error(err);
 	    });
 	};
 
+// statusCallback: "https://screaminder-worker.herokuapp.com/callback/",
+// 		    statusCallbackMethod: "POST",
+// 		    statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
 	function callManual(request, response) {
 		callNumber(request.params.phoneNumber, request.params.fileName);
 		response.json({"status" : "calling"});
