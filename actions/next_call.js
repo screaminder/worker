@@ -77,6 +77,10 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 		} else if (item_type == "custom") {
 			var n = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
 			return "custom_" + n + ".mp3" ;
+		} else if (item_type == "pitches_teams") {
+				return item_type + ".mp3" ;
+		} else if (item_type == "pitches_jury") {
+					return item_type + ".mp3" ;
 		} else {
 			return "response_callmother.mp3";
 		}
