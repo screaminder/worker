@@ -41,7 +41,6 @@ function onError(err, req, res, next) {
 }
 
 var s = later.parse.text('every 10 seconds');
-//later.schedule(s).prev(10);
 
 var timer = later.setInterval(testTimeout, s);
 
@@ -52,6 +51,7 @@ function testTimeout(){
 //actions
 app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
+app.get('/call/manual/:phoneNumber/:fileName', twilioCalls.callManual, statusReq.get);
 app.post('/voice/:fileName', playVoices.scream, statusReq.get);
 app.get('/voice/:fileName', playVoices.scream, statusReq.get);
 
