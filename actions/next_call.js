@@ -4,6 +4,7 @@ const _ = require('lodash');
 
 var titles = ["yoga", "walking", "swimming", "running", "martial", "gym", "grouptraining","teamsports"];
 var day = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+var persons = ["boss", "boyfriend", "brother", "father", "friend", "girlfriend", "mother", "relative", "sister"];
 
 const nextCall = (mongoClient, since, twilioCalls) => {
 	const itemsCollection = mongoClient.collection('items');
@@ -68,6 +69,8 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 
 		if(item_type == "workout" && _.includes(titles, title)){
 			return item_type + "_" + title + ".mp3";
+		} else if (item_type == "birthday" && _.includes(persons, title)) {
+		    return item_type + "_" + title + ".mp3";
 		} else if (item_type == "alarm") {
 			var n = day[new Date().getDay()];
 			return item_type + "_" + n + ".mp3" ;
