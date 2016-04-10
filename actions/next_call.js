@@ -74,6 +74,9 @@ const nextCall = (mongoClient, since, twilioCalls) => {
 		} else if (item_type == "alarm") {
 			var n = day[new Date().getDay()];
 			return item_type + "_" + n + ".mp3" ;
+		} else if (item_type == "custom") {
+			var n = Math.floor(Math.random() * (3 - 1 + 1) + 3);
+			return "custom_" + n + ".mp3" ;
 		} else {
 			return "response_callmother.mp3";
 		}
