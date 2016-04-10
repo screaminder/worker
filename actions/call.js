@@ -16,7 +16,10 @@ const twilioCalls = (twilio_client, config) => {
 	    twilio_client.calls.create({
 	        url: "https://screaminder-worker.herokuapp.com/voice/" + url,
 	        to: number,
-	        from: config.from
+	        from: config.from,
+	        statusCallback: "https://screaminder-worker.herokuapp.com/callback/",
+		    statusCallbackMethod: "POST",
+		    statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
 	    }, function(err, call) {
 	    	if(err)
 		    	console.error(err);

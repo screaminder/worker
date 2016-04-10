@@ -5,6 +5,7 @@ const express = require('express');
 const serve_static = require('serve-static')
 const cors = require('cors');
 const path = require('path');
+const bodyParser = require('body-parser');
 const MongoDB = require('./db/mongoDB.js');
 const statusReq = require('./actions/status.js');
 const later = require('later');
@@ -31,6 +32,7 @@ if (process.env.ACCOUNT_SID) {
 const twilio = require('twilio');
 const twilio_client = twilio(config.accountSid, config.authToken);
 const twilioCalls = require('./actions/call.js')(twilio_client, config);
+const twilioCallback = require('./actions/twilio_callback.js')(twilio_client, config);
 const playVoices = require('./actions/voice.js')(twilio);
 const nextCall = require('./actions/next_call.js')(mongoClient, since, twilioCalls);
 
@@ -45,7 +47,7 @@ var s = later.parse.text('every 10 seconds');
 var timer = later.setInterval(testTimeout, s);
 
 function testTimeout(){
-	nextCall.getCurrent();
+	// nextCall.getCurrent();
 }
 
 //actions
@@ -53,6 +55,7 @@ app.get('/status', statusReq.get);
 app.get('/call', twilioCalls.call, statusReq.get);
 app.get('/call/manual/:phoneNumber/:fileName', twilioCalls.callManual, statusReq.get);
 app.post('/voice/:fileName', playVoices.scream, statusReq.get);
+app.post('/callback', bodyParser.json(), twilioCallback.handleCall);
 app.get('/voice/:fileName', playVoices.scream, statusReq.get);
 
 
